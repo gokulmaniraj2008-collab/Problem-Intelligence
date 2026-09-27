@@ -1,0 +1,806 @@
+Absolutely. Use this as the master build prompt in your coding agent. It captures the complete idea we've developed without locking the product to farmers, SIH, AI, or sensors.
+
+Build a production-quality MVP called Problem Intelligence.
+
+1. Product vision
+
+Create a platform that helps people discover real-world problems worth solving as businesses.
+
+The product philosophy is:
+
+«Don't ask AI what to build. Ask people what hurts — collect evidence, validate the problem, determine whether someone will pay, and only then decide what technology should solve it.»
+
+The platform must be problem-first, evidence-first, and human-in-the-loop.
+
+It must NOT be positioned as:
+
+- an AI startup idea generator
+- a farmer-only application
+- an SIH-only application
+- an AI chatbot
+- a sensor-only application
+
+It should support problems from any industry or human context.
+
+Possible solution types:
+
+- Software
+- AI
+- Hardware
+- Sensors / IoT
+- Robotics
+- Service
+- Marketplace
+- Combination of technologies
+
+---
+
+2. Core product loop
+
+Implement this overall workflow:
+
+REAL PEOPLE
+↓
+REAL PROBLEMS
+↓
+COLLECT
+↓
+GROUP SIMILAR PROBLEMS
+↓
+ANALYZE
+↓
+COLLECT EVIDENCE
+↓
+BUSINESS OPPORTUNITY SCORE
+↓
+HUMAN REVIEW
+↓
+WILLINGNESS-TO-PAY VALIDATION
+↓
+CHOOSE SOLUTION TYPE
+↓
+BUILD MVP
+↓
+CUSTOMER / PAYMENT
+
+The application should make this workflow obvious to the user.
+
+---
+
+3. Main pages
+
+Build these pages:
+
+Page 1 — Discover Problems
+
+Hero heading:
+
+«Find Problems Worth Solving»
+
+Subtitle:
+
+«Real businesses don't start with technology. They start with problems people actually want solved.»
+
+Primary CTA:
+
+«Submit a Problem»
+
+Secondary CTA:
+
+«Explore Problems»
+
+Allow users to submit:
+
+- Problem description
+- Who experiences it
+- Where they discovered it
+- How frequently it happens
+- Whether it costs money
+- Whether it costs time
+- Current solution/workaround
+- Optional source/evidence
+- Category
+
+Possible sources:
+
+- Instagram
+- WhatsApp
+- Reddit
+- Interview
+- Survey
+- Observation
+- SIH
+- Business
+- Other
+
+---
+
+4. Page 2 — Problem Database
+
+Create a searchable database of problems.
+
+Each problem card should show:
+
+- Problem title
+- Short description
+- Category
+- People affected
+- Frequency
+- Evidence count
+- Business opportunity score
+- Validation status
+- Solution type
+- Source
+
+Filters:
+
+- Category
+- Industry
+- Audience
+- Source
+- Score
+- Validation status
+- Solution type
+
+Search should work across problem title, description, category, source and organization.
+
+---
+
+5. Page 3 — Problem Analysis
+
+When a user opens a problem, display:
+
+Problem
+
+What is happening?
+
+Who experiences it?
+
+Who suffers from it?
+
+Frequency
+
+How often does it occur?
+
+Pain
+
+How serious is it?
+
+Economic impact
+
+How much money/time/risk does it create?
+
+Current alternatives
+
+How do people solve it today?
+
+Root causes
+
+Why does it happen?
+
+Existing competitors
+
+Who already attempts to solve it?
+
+Unsolved gap
+
+What is still missing?
+
+---
+
+6. AI analysis
+
+Use AI as a research assistant, not as the final decision maker.
+
+AI should produce:
+
+1. Problem summary
+2. Affected personas
+3. Root causes
+4. Pain points
+5. Frequency hypothesis
+6. Economic impact hypothesis
+7. Existing alternatives
+8. Competition
+9. Potential customer
+10. Potential payer
+11. Possible business models
+12. Possible solution types
+13. Questions that require human validation
+
+Clearly label AI-generated information as:
+
+«AI hypothesis»
+
+Never present an AI assumption as verified fact.
+
+If there is insufficient evidence, explicitly say:
+
+«Insufficient evidence — validate with real people.»
+
+---
+
+7. Page 4 — Human Validation
+
+This is one of the most important parts of the product.
+
+Create a validation dashboard.
+
+Track:
+
+- People contacted
+- People interviewed
+- People confirming the problem
+- People actively looking for a solution
+- People interested in a solution
+- People willing to pilot
+- People willing to pay
+- Actual paying customers
+
+Show a visual evidence funnel:
+
+People contacted
+      ↓
+Problem confirmed
+      ↓
+Interested
+      ↓
+Pilot
+      ↓
+Willing to pay
+      ↓
+Paid customer
+
+Allow users to manually add validation evidence.
+
+Each evidence record should contain:
+
+- Source
+- Date
+- Persona
+- Confirmation
+- Pain level
+- Current solution
+- Willingness to pay
+- Notes
+- Optional amount
+
+The system must distinguish:
+
+AI evidence
+
+from
+
+Human evidence
+
+and prioritize verified human evidence.
+
+---
+
+8. Page 5 — Opportunity Scoring
+
+Create a transparent weighted scoring system.
+
+Use exactly these initial weights:
+
+Criterion| Weight
+People affected| 20%
+Pain / severity| 20%
+Willingness to pay| 25%
+Market potential| 15%
+Competition / gap| 10%
+Feasibility| 10%
+
+Every criterion is scored from 1–10.
+
+Calculate:
+
+Business Score =
+(People × 20%)
++ (Pain × 20%)
++ (WTP × 25%)
++ (Market × 15%)
++ (Gap × 10%)
++ (Feasibility × 10%)
+
+Normalize the final result to 0–100.
+
+Display:
+
+85–100
+
+Exceptional Opportunity
+
+70–84
+
+Strong Opportunity
+
+55–69
+
+Needs Validation
+
+40–54
+
+Weak Opportunity
+
+Below 40
+
+Low Priority
+
+Make the score completely transparent.
+
+Users must be able to change every score manually.
+
+---
+
+9. Human-in-the-loop principle
+
+Never allow the AI score to become the final truth.
+
+Example:
+
+AI suggests:
+
+«Willingness to pay: 8/10»
+
+Human research shows:
+
+«Only 1 of 20 people would pay.»
+
+The user must be able to change it to:
+
+«3/10»
+
+The final score should immediately update.
+
+Show:
+
+«AI hypothesis
+
+Human-adjusted score
+
+Evidence strength»
+
+This is a core product feature.
+
+---
+
+10. Page 6 — Solution Builder
+
+Once a problem is sufficiently validated, help the user decide how to solve it.
+
+Show:
+
+Possible solution types
+
+- Software
+- AI
+- Hardware
+- Sensors / IoT
+- Robotics
+- Marketplace
+- Service
+- Hybrid
+
+Do NOT automatically force an AI solution.
+
+The problem determines the technology.
+
+Example:
+
+Problem
+↓
+Does it require physical-world data?
+↓
+YES
+↓
+Sensor / IoT candidate
+↓
+ESP32 prototype
+↓
+Cloud
+↓
+AI analysis
+↓
+Action
+
+Another problem might simply require:
+
+Problem
+↓
+Web application
+↓
+Customer
+
+---
+
+11. SIH integration
+
+Treat SIH as a problem source, not the identity of the product.
+
+Support importing structured SIH problem statements.
+
+Each SIH problem should have:
+
+- PS number
+- Title
+- Organization
+- Category
+- Theme
+- Description
+- Source
+- Business score
+- Human score
+- Validation status
+
+The dashboard should be able to rank SIH problems using the same opportunity framework.
+
+Do not hard-code SIH as the only dataset.
+
+The architecture must support future datasets.
+
+---
+
+12. Problem sources
+
+Design the database so problems can originate from:
+
+USER
+INSTAGRAM
+WHATSAPP
+REDDIT
+SURVEY
+INTERVIEW
+BUSINESS
+OBSERVATION
+SIH
+PUBLIC DATA
+OTHER
+
+Do not scrape social media automatically in the MVP.
+
+Start with manual collection.
+
+Later add integrations.
+
+---
+
+13. Dashboard
+
+Create a premium dashboard showing:
+
+Total problems
+
+Validated problems
+
+Problems needing validation
+
+Strong opportunities
+
+Paying opportunities
+
+Average opportunity score
+
+Top opportunities
+
+Example:
+
+#1 Equipment downtime
+91/100
+3 pilot customers
+1 paying customer
+
+#2 Small business lead loss
+87/100
+12 confirmed
+4 interested
+
+#3 Energy waste
+84/100
+28 confirmed
+2 pilots
+
+Add charts for:
+
+- Problems by category
+- Problems by source
+- Score distribution
+- Validation funnel
+- Willingness-to-pay distribution
+- Top opportunities
+
+---
+
+14. Database
+
+Use Supabase PostgreSQL.
+
+Create these initial tables:
+
+problems
+
+id
+title
+description
+audience
+category
+industry
+source
+frequency
+time_cost
+money_cost
+current_solution
+status
+created_by
+created_at
+updated_at
+
+evidence
+
+id
+problem_id
+source
+date
+persona
+confirmed
+pain_score
+current_solution
+willingness_to_pay
+amount
+notes
+created_by
+created_at
+
+scores
+
+id
+problem_id
+people_score
+pain_score
+wtp_score
+market_score
+gap_score
+feasibility_score
+ai_score
+human_score
+final_score
+updated_by
+updated_at
+
+solutions
+
+id
+problem_id
+type
+description
+estimated_cost
+status
+created_at
+
+validation_events
+
+id
+problem_id
+stage
+count
+notes
+created_at
+
+Use Row Level Security properly.
+
+Users should only modify their own private records unless a problem is explicitly made public.
+
+---
+
+15. Authentication
+
+For MVP:
+
+- Allow anonymous browsing
+- Require authentication for saving private problems
+- Use Supabase Auth
+- Keep onboarding extremely short
+
+Do not force users through a complicated registration process before they understand the product.
+
+---
+
+16. UI / UX
+
+Design style:
+
+- Premium
+- Modern
+- Clean
+- Light/normal theme
+- Mobile-first
+- Excellent desktop layout
+- Strong typography
+- Minimal unnecessary decoration
+- No generic AI robot imagery
+- No excessive gradients
+- No dark futuristic cyberpunk aesthetic
+- Clear charts
+- Clear status indicators
+- Simple navigation
+
+Navigation:
+
+Discover
+Problems
+Validation
+Opportunities
+Solutions
+Dashboard
+
+Use a responsive sidebar on desktop and mobile navigation/hamburger on smaller screens.
+
+---
+
+17. Important product principle
+
+The application must constantly reinforce:
+
+«AI proposes. Humans verify. Customers decide. Money proves.»
+
+Do not create fake validation numbers.
+
+Do not manufacture market size.
+
+Do not claim that an opportunity is validated unless actual evidence has been recorded.
+
+---
+
+18. Initial MVP scope
+
+DO NOT build every advanced feature immediately.
+
+First make these work perfectly:
+
+1. Submit problem
+2. Store problem in Supabase
+3. Browse/search problems
+4. Analyze problem with AI
+5. Manually score problem
+6. Add human evidence
+7. Calculate opportunity score
+8. Shortlist opportunity
+9. Export results
+
+Everything else can come later.
+
+---
+
+19. Technical requirements
+
+Use:
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Supabase
+- PostgreSQL
+- Vercel
+- Gemini API through secure server-side code
+
+Never expose API keys in client-side code.
+
+Use environment variables.
+
+Never commit secrets to GitHub.
+
+Use clean reusable components.
+
+Use strong TypeScript types.
+
+Add loading, empty, error and success states.
+
+Handle API failures gracefully.
+
+---
+
+20. Build philosophy
+
+Do not over-engineer.
+
+Build a real working MVP rather than a collection of mock screens.
+
+Every important button should work.
+
+Every submitted problem should persist.
+
+Every score should update.
+
+Every evidence record should be saved.
+
+Every dashboard number should come from real database data.
+
+AI outputs must be clearly identified as hypotheses.
+
+---
+
+21. The ultimate product positioning
+
+Use this positioning throughout the product:
+
+Problem Intelligence
+
+Find what people actually need before deciding what to build.
+
+Supporting message:
+
+«Collect real problems. Validate them with real people. Find the money. Choose the right technology. Build with confidence.»
+
+---
+
+22. Success metric
+
+Do NOT optimize initially for:
+
+- number of AI ideas
+- number of generated solutions
+- vanity scores
+- number of users
+
+Optimize for:
+
+Validated problems that become real opportunities.
+
+The long-term funnel is:
+
+100 Problems
+↓
+30 Repeated
+↓
+10 Confirmed
+↓
+3 Monetizable
+↓
+1 Paying Customer
+
+Build the product around improving this conversion.
+
+---
+
+23. Start now
+
+Do not ask me to define another concept.
+
+Implement the MVP beginning with:
+
+Phase 1
+
+Page 1 — Discover Problems
+
+Then:
+
+Phase 2
+
+Problem Database
+
+Then:
+
+Phase 3
+
+AI Analysis
+
+Then:
+
+Phase 4
+
+Human Validation
+
+Then:
+
+Phase 5
+
+Opportunity Scoring
+
+Then:
+
+Phase 6
+
+Solution Builder
+
+Create the project with a clean, production-quality architecture and make Page 1 fully functional before expanding to the next page.
