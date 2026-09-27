@@ -1,30 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-
-export default async function handler(req, res) {
-  try {
-    if (req.method === 'GET') {
-      const problemId = req.query?.problem_id;
-      let query = supabase.from('evidence').select('*').order('created_at', { ascending: false }).limit(100);
-      if (problemId) query = query.eq('problem_id', problemId);
-      const { data, error } = await query;
-      if (error) return res.status(500).json({ error: error.message });
-      return res.status(200).json(data ?? []);
-    }
-
-    if (req.method === 'POST') {
-      const { problem_id, source, persona, confirmed, pain_score, current_solution, willingness_to_pay, notes } = req.body ?? {};
-      if (!problem_id || !persona || !notes?.trim()) return res.status(400).json({ error: 'Problem, persona and evidence notes are required' });
-      if (pain_score != null && (Number(pain_score) < 1 || Number(pain_score) > 10)) return res.status(400).json({ error: 'Pain score must be 1–10' });
-      const { data, error } = await supabase.from('evidence').insert({ problem_id, source: source || null, persona, confirmed: confirmed === true, pain_score: pain_score == null ? null : Number(pain_score), current_solution: current_solution || null, willingness_to_pay: willingness_to_pay === '' || willingness_to_pay == null ? null : Number(willingness_to_pay), notes: notes.trim() }).select().single();
-      if (error) return res.status(400).json({ error: error.message });
-      return res.status(201).json(data);
-    }
-
-    res.setHeader('Allow', ['GET', 'POST']);
-    return res.status(405).json({ error: 'Method not allowed' });
-  } catch (error) {
-    return res.status(500).json({ error: error.message || 'Unexpected server error' });
-  }
-}
+const supabase=createClient(process.env.SUPABASE_URL,process.env.SUPABASE_SERVICE_ROLE_KEY);
+export default async function handler(req,res){try{
+ if(req.method==='GET'){let q=supabase.from('evidence').select('*').order('date',{ascending:false}).order('created_at',{ascending:false}).limit(100);if(req.query?.problem_id)q=q.eq('problem_id',req.query.problem_id);const {data,error}=await q;if(error)return res.status(500).json({error:error.message});return res.status(200).json(data||[])}
+ if(req.method==='POST'){const b=req.body||{};if(!b.problem_id||!b.persona||!b.notes?.trim())return res.status(400).json({error:'Problem, persona and evidence notes are required'});if(b.pain_score!=null&&(Number(b.pain_score)<1||Number(b.pain_score)>10))return res.status(400).json({error:'Pain score must be 1–10'});const row={problem_id:b.problem_id,source:b.source||null,date:b.date||new Date().toISOString().slice(0,10),persona:b.persona,confirmed:b.confirmed===true,pain_score:b.pain_score==null?null:Number(b.pain_score),current_solution:b.current_solution||null,willingness_to_pay:b.willingness_to_pay===''||b.willingness_to_pay==null?null:Number(b.willingness_to_pay),notes:b.notes.trim()};const {data,error}=await supabase.from('evidence').insert(row).select().single();if(error)return res.status(400).json({error:error.message});return res.status(201).json(data)}
+ res.setHeader('Allow',['GET','POST']);return res.status(405).json({error:'Method not allowed'})
+}catch(e){return res.status(500).json({error:e.message||'Unexpected server error'})}}
