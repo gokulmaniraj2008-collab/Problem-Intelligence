@@ -1,34 +1,53 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 const sources = ['Instagram', 'WhatsApp', 'Reddit', 'Interview', 'Survey', 'Observation', 'SIH', 'Business', 'Other'];
 const categories = ['Money & Work', 'Healthcare', 'Education', 'Housing', 'Business', 'Transport', 'Environment', 'Technology', 'Other'];
 
+const emptyForm = { title: '', description: '', audience: '', source: '', category: '', frequency: 'Weekly', moneyCost: '', timeCost: '', currentSolution: '' };
+
 function App() {
-  const [form, setForm] = useState({ title: '', description: '', audience: '', source: '', category: '', frequency: 'Weekly', moneyCost: '', timeCost: '', currentSolution: '' });
+  const [form, setForm] = useState(emptyForm);
   const [submitted, setSubmitted] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [dbStatus, setDbStatus] = useState('Checking Supabase…');
+  const [recentProblems, setRecentProblems] = useState([]);
 
   const update = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
+
+  async function loadProblems() {
+    try {
+      const response = await fetch('/api/problems');
+      if (!response.ok) throw new Error('Unable to load');
+      const data = await response.json();
+      setRecentProblems(data);
+      setDbStatus('Supabase connected');
+    } catch {
+      setDbStatus('API unavailable');
+    }
+  }
+
+  useEffect(() => { loadProblems(); }, []);
 
   async function submit(e) {
     e.preventDefault();
     if (!form.title.trim() || !form.description.trim()) return;
     setSaving(true);
+    setSubmitted(false);
     try {
       const response = await fetch('/api/problems', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
       });
-      if (!response.ok) throw new Error('Unable to save');
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(payload.error || 'Unable to save');
       setSubmitted(true);
-      setForm({ title: '', description: '', audience: '', source: '', category: '', frequency: 'Weekly', moneyCost: '', timeCost: '', currentSolution: '' });
-    } catch {
-      const saved = JSON.parse(localStorage.getItem('pi-problems') || '[]');
-      localStorage.setItem('pi-problems', JSON.stringify([{ ...form, localId: crypto.randomUUID(), createdAt: new Date().toISOString() }, ...saved]));
-      setSubmitted(true);
+      setForm(emptyForm);
+      await loadProblems();
+    } catch (error) {
+      setDbStatus(error.message || 'Unable to save');
     } finally {
       setSaving(false);
     }
@@ -39,7 +58,7 @@ function App() {
       <header className="topbar">
         <div className="brand"><span className="brand-mark">PI</span><span>Problem Intelligence</span></div>
         <nav><a className="active">Discover</a><a>Problems</a><a>Validation</a><a>Opportunities</a><a>Solutions</a></nav>
-        <button className="outline-btn">Explore problems</button>
+        <button className="outline-btn" onClick={() => document.querySelector('.workspace')?.scrollIntoView({ behavior: 'smooth' })}>Submit problem</button>
       </header>
 
       <main>
@@ -52,7 +71,8 @@ function App() {
 
         <section className="workspace">
           <div className="section-heading"><div><div className="eyebrow">01 / CAPTURE</div><h2>What problem have you noticed?</h2></div><span className="required">* Required fields</span></div>
-          {submitted && <div className="success">✓ Problem captured. Next step: collect evidence from real people.</div>}
+          {submitted && <div className="success">✓ Problem saved to Supabase. Next step: collect evidence from real people.</div>}
+          <div className="db-status">● {dbStatus}</div>
           <form onSubmit={submit}>
             <div className="field full"><label>Problem in one sentence <span>*</span></label><input value={form.title} onChange={e => update('title', e.target.value)} placeholder="e.g. Small shops lose customers because they cannot respond to enquiries quickly." required /></div>
             <div className="field full"><label>Describe the problem <span>*</span></label><textarea value={form.description} onChange={e => update('description', e.target.value)} placeholder="What happens? Why is it painful? What gets wasted, lost, delayed or made difficult?" rows="5" required /></div>
@@ -67,6 +87,11 @@ function App() {
             <div className="field full"><label>How is it solved today?</label><textarea value={form.currentSolution} onChange={e => update('currentSolution', e.target.value)} placeholder="Existing app, manual process, workaround, competitor, or nothing…" rows="3" /></div>
             <div className="form-footer"><div><strong>Start with the problem.</strong><span>AI analysis and business scoring come after evidence.</span></div><button className="primary-btn" disabled={saving}>{saving ? 'Saving…' : 'Capture problem →'}</button></div>
           </form>
+        </section>
+
+        <section className="recent">
+          <div className="section-heading"><div><div className="eyebrow">LIVE DATA</div><h2>Recently captured</h2></div><span className="required">{recentProblems.length} saved</span></div>
+          {recentProblems.length === 0 ? <p className="empty">No problems captured yet. Submit the first one above.</p> : <div className="problem-list">{recentProblems.slice(0, 5).map((problem) => <article key={problem.id}><div><span className="pill">{problem.category || 'Uncategorized'}</span><h3>{problem.title}</h3><p>{problem.description}</p></div><small>{problem.source || 'Unknown source'}</small></article>)}</div>}
         </section>
 
         <section className="principles"><div><span>01</span><h3>Real problems</h3><p>Capture observations from people, businesses, interviews and communities.</p></div><div><span>02</span><h3>Real evidence</h3><p>Separate AI hypotheses from what humans actually confirmed.</p></div><div><span>03</span><h3>Real money</h3><p>Willingness to pay and customer action are stronger than an AI score.</p></div></section>
