@@ -1,53 +1,73 @@
 import express from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
 import 'dotenv/config';
+import { createClient } from '@supabase/supabase-js';
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const problemSchema = new mongoose.Schema({
-  title: { type: String, required: true, trim: true },
-  description: { type: String, required: true },
-  audience: String,
-  source: String,
-  category: String,
-  frequency: String,
-  moneyCost: String,
-  timeCost: String,
-  currentSolution: String
-}, { timestamps: true });
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
-const Problem = mongoose.model('Problem', problemSchema);
-
-app.get('/api/health', (_req, res) => res.json({ ok: true, service: 'problem-intelligence-api' }));
+app.get('/api/health', (_req, res) => res.json({
+  ok: true,
+  service: 'problem-intelligence-api',
+  database: supabase ? 'supabase' : 'not-configured'
+}));
 
 app.get('/api/problems', async (_req, res) => {
-  try {
-    const problems = await Problem.find().sort({ createdAt: -1 }).limit(100);
-    res.json(problems);
-  } catch (error) {
-    res.status(500).json({ error: 'Unable to load problems' });
-  }
+  if (!supabase) return res.json([]);
+
+  const { data, error } = await supabase
+    .from('problems')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100);
+
+  if (error) return res.status(500).json({ error: 'Unable to load problems', details: error.message });
+  res.json(data ?? []);
 });
 
 app.post('/api/problems', async (req, res) => {
-  try {
-    const problem = await Problem.create(req.body);
-    res.status(201).json(problem);
-  } catch (error) {
-    res.status(400).json({ error: 'Invalid problem data' });
+  if (!supabase) return res.status(503).json({ error: 'Supabase is not configured' });
+
+  const {
+    title,
+    description,
+    audience,
+    source,
+    category,
+    frequency,
+    moneyCost,
+    timeCost,
+    currentSolution
+  } = req.body;
+
+  if (!title?.trim() || !description?.trim()) {
+    return res.status(400).json({ error: 'Title and description are required' });
   }
+
+  const { data, error } = await supabase
+    .from('problems')
+    .insert({
+      title: title.trim(),
+      description: description.trim(),
+      audience: audience || null,
+      source: source || null,
+      category: category || null,
+      frequency: frequency || null,
+      money_cost: moneyCost || null,
+      time_cost: timeCost || null,
+      current_solution: currentSolution || null
+    })
+    .select()
+    .single();
+
+  if (error) return res.status(400).json({ error: 'Unable to save problem', details: error.message });
+  res.status(201).json(data);
 });
 
 const port = process.env.PORT || 5000;
-const mongoUri = process.env.MONGODB_URI;
-
-if (mongoUri) {
-  mongoose.connect(mongoUri)
-    .then(() => app.listen(port, () => console.log(`API running on ${port}`)))
-    .catch((error) => { console.error('MongoDB connection failed:', error.message); process.exit(1); });
-} else {
-  app.listen(port, () => console.log(`API running on ${port} (MongoDB not configured)`));
-}
+app.listen(port, () => console.log(`API running on ${port}`));
